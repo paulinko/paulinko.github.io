@@ -1,0 +1,28 @@
+body{
+	width: 100%;
+	height: 100%;
+	background: black;
+	color: white;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+#waterline{
+	position: absolute;
+	top: 80px;
+
+}
+
+.fish{
+	color: white;
+	height: 80px;
+	width:80px;
+	position: absolute;
+}
+
+.plant{
+	position: absolute;
+	bottom: 0px;
+	height: 80px;
+	width:80px;
+}

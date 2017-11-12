@@ -1,5 +1,26 @@
 <html>
-
-<h1> Init </h1>
-
+<script type="text/javascript" src="main.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<head>
+	<title>
+		Asciifish
+	</title>
+</head>
+<body>
+<div id="waterline"> </div>
+<div id="fish1" class="fish"></div>
+<div id="bottom"></div>
+<script>
+	releaseNewFish(document.getElementById("fish1"), 20);
+	document.getElementById("waterline").innerHTML = fishToHtml(waterline);
+	for (i = 0; i < 7; i++){
+		makeNewFishDiv();
+	}
+	for (i=0; i < 6; i++){
+		makeRandomSeaplant()
+	}
+	animatePlants();
+	run();
+</script>
+</body>
 </html>
