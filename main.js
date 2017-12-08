@@ -1,24 +1,77 @@
 var fishes = [];
 var plants = [];
 
-function fishToHtml(fish){
-	html = ""
-	for (f in fish){
-		html += fish[f].replaceAll(" ", "&nbsp;") + "<br>"
-
-	}
-	return html;
-}
-
-fish1=[ "  ___",
-	  "\\/  o\\",
-	   "/\\__/"]
-
-
 const waterline = ["~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
 "^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^",
 "^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^",
 "^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^"]
+
+
+fish1_l=[ "  ___",
+	  "\\/  o\\",
+	   "/\\___/"]
+
+fish1_r=[ 
+" ___  ",
+"/o  \\/",
+"\\___/\\"
+]
+
+fish2_r = [
+"          __ ",
+"         /  : " ,
+"     _.--\"\"\"-..   _.",
+"    /F         `-'   [",
+"   ]  ,    ,    ,     :",
+"    '--L__J_.-\"\" ',_:",
+"        '-._J"
+];
+
+fish2_l = [
+"          __          ",
+"         ;  \\         ",
+"  ._   ..-\"\"\"--._     ",
+" ]  '-`           9\\    ",
+";    ,    ,    ,     [   ",
+" ;_,' \"\"-._L__J--'    ",
+"         L_.-'     ",
+]
+
+String.prototype.reverse = function(){
+	return this.split("").reverse().join()
+}
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
+function reverseAscii(str){
+	return str.replaceAll("/","\\").replaceAll("/","\\")
+}
+
+function fishToHtml(fish, type=0){
+	html = ""
+	fish.forEach(function(f){
+	//for (f in fish){
+		html += f.replaceAll(" ", "&nbsp;") + "<br>"
+
+	})
+	return html;
+}
+
+
+fish_types = [
+[
+	[[fishToHtml(fish1_l)]],
+	[[fishToHtml(fish1_r)]]
+],
+[
+	[[fishToHtml(fish2_l)]],
+	[[fishToHtml(fish2_r)]]	
+
+]				
+]
 
 
 
@@ -28,13 +81,6 @@ var screen_width = 1200;
 var fish_counter  = 0;
 const fish_max = 7;
 var new_spawn = 0;
-
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.split(search).join(replacement);
-};
-
-fish1 = fishToHtml(fish1);
 
 
 function makeNewFishDiv(){
@@ -61,16 +107,16 @@ plant.prototype.next_frame = function(){
 }
 
 
-fish = function(div, y=20,direction=0,type=fish1, tempo=10){
-	this.type = type;
+function fish(div, y=20,direction=0,type=0, tempo= 4){
+	this.type = fish_types[type][direction][0];
+	console.log(this.type)
 	this.y = y;
 	this.direction = direction;
 	this.tempo = tempo;
 	this.x = 0;
 	this.div = div;
 	this.div.classList.remove("e");
-	if (direction) reverseFish(type)
-	this.div.innerHTML = type;
+	this.div.innerHTML = this.type;
 }
 
 
@@ -87,9 +133,11 @@ fish.prototype.move = function(){
 
 fish.prototype.start = function(){
 	if (this.direction){
+		this.div.style.left = "";
 		this.div.style.right = 0;
 	}
 	else{
+		this.div.style.right = "";
 		this.div.style.left = 0;
 	}
 	this.div.style.top = this.y;
@@ -106,11 +154,14 @@ function makeRandomFish(div=null){
 	if (!div){
 		div = makeNewFishDiv();
 	}
-	releaseNewFish(div, y);
+	tempo = Math.floor(Math.random() * 4) + 2
+	dir = Math.round((Math.random()))
+	type = Math.floor(Math.random() * fish_types.length)
+	f = new fish(div, y, dir, type, tempo)
+	releaseNewFish(f);
 }
 
-function releaseNewFish(div, y){
-	f = new fish(div,y);
+function releaseNewFish(f){
 	f.start()
 	fishes.push(f)
 }
