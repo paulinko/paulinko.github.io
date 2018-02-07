@@ -1,7 +1,17 @@
+const screen_height = screen.height;
+const screen_width = screen.width;
+const fish_max = 7;
+const char_width = 13;
+const wave_char_width = 8;
+const necessaryCharNum = screen_width / char_width;
+const wave_count = 5;
+
+var fish_counter  = 0;
+var new_spawn = 0;
 var fishes = [];
 var plants = [];
 
-const waterline = ["~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+var waterline = ["~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
 "^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^^ ^^^  ^^^   ^^^    ^^^^      ^^^",
 "^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^",
 "^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^"]
@@ -11,7 +21,7 @@ fish1_l=[ "  ___",
 	  "\\/  o\\",
 	   "/\\___/"]
 
-fish1_r=[ 
+fish1_r=[
 " ___  ",
 "/o  \\/",
 "\\___/\\"
@@ -60,6 +70,29 @@ function fishToHtml(fish, type=0){
 	return html;
 }
 
+function calculateWavelength(){
+  wavelength = necessaryCharNum / 40;
+	return Math.floor(wavelength * Math.random() *2 +2)//(wavelength + ((Math.random()*(wavelength/2)) - wavelength/4)))
+}
+
+function makeWater(){
+	var necessaryCharNum = Math.floor(screen_width / char_width);
+	waterline[0] = "~".repeat(necessaryCharNum);
+	necessaryCharNum = Math.floor(screen_width / wave_char_width);
+	for (var i = 1;i < wave_count;i++){
+		var wave = 0;
+		var w_str = ""
+		while (w_str.length < necessaryCharNum){
+			var wavelength = calculateWavelength();
+			console.log(necessaryCharNum)
+			console.log(wavelength)
+			var w_char = ((wave % 2)==0) ? " " : "^";
+			w_str += w_char.repeat(wavelength)
+			wave++;
+		}
+		waterline[i] = w_str;
+	}
+}
 
 fish_types = [
 [
@@ -68,19 +101,13 @@ fish_types = [
 ],
 [
 	[[fishToHtml(fish2_l)]],
-	[[fishToHtml(fish2_r)]]	
+	[[fishToHtml(fish2_r)]]
 
-]				
+]
 ]
 
 
 
-
-var screen_height = 600;
-var screen_width = 1200;
-var fish_counter  = 0;
-const fish_max = 7;
-var new_spawn = 0;
 
 
 function makeNewFishDiv(){
@@ -96,7 +123,7 @@ plant = function(div, frames, x){
 	this.frames = frames;
 	this.div.innerHTML = frames[0];
 	this.div.style.left = x;
-	this.frame_num = 0; 
+	this.frame_num = 0;
 }
 
 plant.prototype = Object.create(Object.prototype);
@@ -106,10 +133,8 @@ plant.prototype.next_frame = function(){
 	this.div.innerHTML = this.frames[this.frame_num];
 }
 
-
 function fish(div, y=20,direction=0,type=0, tempo= 4){
 	this.type = fish_types[type][direction][0];
-	console.log(this.type)
 	this.y = y;
 	this.direction = direction;
 	this.tempo = tempo;
@@ -117,6 +142,7 @@ function fish(div, y=20,direction=0,type=0, tempo= 4){
 	this.div = div;
 	this.div.classList.remove("e");
 	this.div.innerHTML = this.type;
+	this.div.addEventListener("click", this.flee);
 }
 
 
@@ -129,6 +155,11 @@ fish.prototype.move = function(){
 	else{
 		this.div.style.left = this.x += this.tempo;
 	}
+}
+
+fish.prototype.flee = function(){
+
+	this.tempo = 12;
 }
 
 fish.prototype.start = function(){
@@ -164,6 +195,8 @@ function makeRandomFish(div=null){
 function releaseNewFish(f){
 	f.start()
 	fishes.push(f)
+
+	//f.div.addEventListener("click", )
 }
 
 function makeRandomSeaplant(){
@@ -206,7 +239,7 @@ function run(){
 			fish_counter -= 1;
 			delete fishes[i];
 		}
-		
+
 	}
 	if((new_spawn < new Date().valueOf()) && (fish_counter < fish_max)){
 		f_div = document.getElementsByClassName("e")[0];
