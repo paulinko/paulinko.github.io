@@ -16,7 +16,6 @@ var waterline = ["~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 "^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^^      ^^^^     ^^^    ^^     ^^^",
 "^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^      ^^^^      ^^^    ^^^^^^  ^^"]
 
-
 fish1_l=[ "  ___",
 	  "\\/  o\\",
 	   "/\\___/"]
@@ -31,8 +30,8 @@ fish2_r = [
 "          __ ",
 "         /  : " ,
 "     _.--\"\"\"-..   _.",
-"    /F         `-'   [",
-"   ]  ,    ,    ,     :",
+"    /F         `-' [",
+"   ]  ,    ,    ,   :",
 "    '--L__J_.-\"\" ',_:",
 "        '-._J"
 ];
@@ -41,8 +40,8 @@ fish2_l = [
 "          __          ",
 "         ;  \\         ",
 "  ._   ..-\"\"\"--._     ",
-" ]  '-`           9\\    ",
-";    ,    ,    ,     [   ",
+" ]  '-`         9\\    ",
+";    ,    ,    ,  [   ",
 " ;_,' \"\"-._L__J--'    ",
 "         L_.-'     ",
 ]
@@ -77,7 +76,7 @@ function calculateWavelength(){
 
 function makeWater(){
 	var necessaryCharNum = Math.floor(screen_width / char_width);
-	waterline[0] = "~".repeat(necessaryCharNum);
+	waterline[0] = "~".repeat(necessaryCharNum*2);
 	necessaryCharNum = Math.floor(screen_width / wave_char_width);
 	for (var i = 1;i < wave_count;i++){
 		var wave = 0;

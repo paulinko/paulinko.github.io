@@ -5,6 +5,7 @@ body{
 	color: white;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	font-family: "Courier New", Courier, monospace;
 }
 
 #waterline{
@@ -16,7 +17,7 @@ body{
 .fish{
 	color: white;
 	height: 200px;
-	width:200px;
+	width:400px;
 	position: absolute;
 }
 
