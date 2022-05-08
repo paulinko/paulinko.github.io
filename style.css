@@ -25,3 +25,8 @@ body{
 	height: 80px;
 	width:80px;
 }
+
+
+.fish >span{
+    background-color: black;
+}
