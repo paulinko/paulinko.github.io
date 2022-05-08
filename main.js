@@ -141,7 +141,8 @@ function fish(div, y=20,direction=0,type=0, tempo= 4){
 	this.div = div;
 	this.div.classList.remove("e");
 	this.div.innerHTML = this.type;
-	this.div.addEventListener("click", this.flee);
+	let fish = this
+	this.div.addEventListener("click", () => fish.tempo = 12 );
 }
 
 
