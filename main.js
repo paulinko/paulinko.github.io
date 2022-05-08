@@ -63,7 +63,8 @@ function fishToHtml(fish, type=0){
 	html = ""
 	fish.forEach(function(f){
 	//for (f in fish){
-		html += f.replaceAll(" ", "&nbsp;") + "<br>"
+		let newLine = f.replace(/^(\s*)(\S)(.*)(\S)(\s*)$/, "$1<span>$2$3$4</span>")
+		html += newLine.replaceAll(" ", "&nbsp;") + "<br>"
 
 	})
 	return html;
@@ -142,7 +143,7 @@ function fish(div, y=20,direction=0,type=0, tempo= 4){
 	this.div.classList.remove("e");
 	this.div.innerHTML = this.type;
 	let fish = this
-	this.div.addEventListener("click", () => fish.tempo = 12 );
+	this.div.addEventListener("click", () => fish.tempo *= 5 );
 }
 
 
@@ -181,7 +182,7 @@ fish.prototype.stop = function(){
 }
 
 function makeRandomFish(div=null){
-	y = (Math.random()*(screen_height-80)) + 80;
+	y = (Math.random()*(screen_height-100)) + 100;
 	if (!div){
 		div = makeNewFishDiv();
 	}
