@@ -200,7 +200,7 @@ function releaseNewFish(f){
 
 function makeRandomSeaplant(){
 	var length = Math.floor(Math.random() * 5) + 4;
-	var x = Math.random()*(screen_width-200);
+	var x = Math.random()*(screen_width-0.1 * screen_width);
 	var plantHTML = ["", ""];
 	var left = Math.random() > 0.5;
 	for (var i = 6; i > 0; i--){
